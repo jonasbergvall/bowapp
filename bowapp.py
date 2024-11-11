@@ -54,7 +54,9 @@ if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
 
 
-
+# Callback function to open link
+def open_link(link):
+    st.session_state["link"] = link
 
 
 # Solutions Page with "Usage" Field in MetricCard
@@ -83,36 +85,36 @@ if selected_page == "The Suite":
     # Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution in a MetricCard with option_menu for actions
+    # Display each solution in a container with option_menu for actions
     for i, solution in enumerate(solutions):
         with cols[i % 3]:  # Rotate through columns
-            ui.metric_card(
-                title=solution["name"],
-                content=solution["description"],
-                description=solution["usage"],
-                key=f"solution_card_{i}"
-            )
+            with st.container():  # Container for each solution
+                ui.metric_card(
+                    title=solution["name"],
+                    content=solution["description"],
+                    description=solution["usage"],
+                    key=f"solution_card_{i}"
+                )
 
-            # Option menu for each solution
-            action = option_menu(
-                menu_title="",
-                options=["Select", "Open"],
-                icons=["", "box-arrow-up-right"],
-                menu_icon="cast",
-                default_index=0,
-                key=f"option_menu_{i}",
-                orientation="horizontal",
-                styles={
-                    "container": {"padding": "0!important"},
-                    "nav-link-selected": {"background-color": "#FFCC00"},
-                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-                }
-            )
+                # Option menu with a callback to open the link
+                action = option_menu(
+                    menu_title="",
+                    options=["Select", "Open"],
+                    icons=["", "box-arrow-up-right"],
+                    menu_icon="cast",
+                    default_index=0,
+                    key=f"option_menu_{i}",
+                    orientation="horizontal",
+                    styles={
+                        "container": {"padding": "0!important"},
+                        "nav-link-selected": {"background-color": "#FFCC00"},
+                        "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
+                    }
+                )
 
-            # Set session state with the link
-            if action == "Open":
-                st.session_state["link"] = solution["link"]
-                st.rerun()  # Trigger rerun to activate the JavaScript code
+                # Callback to open the link when "Open" is selected
+                if action == "Open":
+                    open_link(solution["link"])
 
     # JavaScript redirection if link is set
     if "link" in st.session_state:
@@ -123,7 +125,6 @@ if selected_page == "The Suite":
         """
         st.markdown(js, unsafe_allow_html=True)
         del st.session_state["link"]  # Clear the link after redirection
-
 
 
 
