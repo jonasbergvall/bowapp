@@ -29,6 +29,11 @@ st.markdown(
         .st-emotion-cache-16txt1c {
             font-family: 'Roboto Slab', sans-serif;
         }
+        .stButton>button {
+            font-size: 12px;
+            padding: 5px 10px;
+            margin: 2px;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -116,16 +121,22 @@ if selected_page == "The Suite":
                 key=f"solution_card_{i}"
             )
 
+            # Create a row for buttons
+            button_cols = st.columns(3)
+
             # Add buttons for actions
             if "link" in solution:
-                if st.button("Open", key=f"open_button_{i}"):
-                    webbrowser.open_new_tab(solution["link"])
+                with button_cols[0]:
+                    if st.button("Open", key=f"open_button_{i}"):
+                        webbrowser.open_new_tab(solution["link"])
             if "extra_link" in solution:
-                if st.button("Download", key=f"download_button_{i}"):
-                    webbrowser.open_new_tab(solution["extra_link"])
+                with button_cols[1]:
+                    if st.button("Download", key=f"download_button_{i}"):
+                        webbrowser.open_new_tab(solution["extra_link"])
             if "video_link" in solution:
-                if st.button("Video", key=f"video_button_{i}"):
-                    webbrowser.open_new_tab(solution["video_link"])
+                with button_cols[2]:
+                    if st.button("Video", key=f"video_button_{i}"):
+                        webbrowser.open_new_tab(solution["video_link"])
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
