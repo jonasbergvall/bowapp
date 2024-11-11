@@ -2,3 +2,4 @@ streamlit
 streamlit-lottie
 streamlit-option-menu
 streamlit-shadcn-ui
+streamlit-navigation-bar
