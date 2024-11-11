@@ -80,22 +80,21 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-    # ... rest of your code ...
+    # Define all specified solutions
+solutions = [
+    # ... your solutions list from previous comment ...
+]
 
 # Create three columns for layout
 cols = st.columns(3)
 
-# Define the solutions list (ensure it's defined correctly)
-solutions = [
-    {"name": "Solution 1", "description": "Description 1", "link": "https://example.com/1", "usage": "Individual"},
-    # ... other solutions ...
-]
-
-# Display each solution with JavaScript link opening
+# Iterate over solutions and distribute them across columns
 for i, solution in enumerate(solutions):
-    with cols[i % 3]:
+    col_index = i % 3  # Determine the column index
+
+    with cols[col_index]:
         with st.container():
-            ui.metric_card(
+            ui.metric_card(  # Assuming ui.metric_card is your function for displaying metrics
                 title=solution["name"],
                 content=solution["description"],
                 description=solution["usage"],
@@ -109,6 +108,12 @@ for i, solution in enumerate(solutions):
             </script>
             """
             st.markdown(js, unsafe_allow_html=True)  # Allow HTML rendering
+
+            # Check for additional links or videos (optional)
+            if "extra_link" in solution:
+                st.markdown(f"[Extra Link]({solution['extra_link']})")
+            if "video_link" in solution:
+                st.markdown(f"[Video]({solution['video_link']})")
 
 # ... rest of your code ...
 
