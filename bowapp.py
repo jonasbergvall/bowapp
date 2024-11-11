@@ -39,7 +39,7 @@ if selected_page == "The Suite":
     # Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution as a Markdown link
+    # Display each solution with an icon-only option_menu for actions
     for i, solution in enumerate(solutions):
         with cols[i % 3]:
             with st.container():
@@ -49,5 +49,28 @@ if selected_page == "The Suite":
                     description=solution["usage"],
                     key=f"solution_card_{i}"
                 )
-                # Add Markdown link for "Open"
-                st.markdown(f"[Open {solution['name']}]({solution['link']})", unsafe_allow_html=True)
+
+                # Option menu with icon-only for "Open"
+                action = option_menu(
+                    menu_title="",
+                    options=["", " "],  # Empty labels
+                    icons=["", "box-arrow-up-right"],  # Icon for "Open"
+                    menu_icon="cast",
+                    default_index=0,
+                    key=f"option_menu_{i}",
+                    orientation="horizontal",
+                    styles={
+                        "container": {"padding": "0!important"},
+                        "nav-link-selected": {"background-color": "#FFCC00"},
+                        "nav-link": {"padding": "5px 10px"},
+                    }
+                )
+                
+                # Inject JavaScript to open the link in a new tab if icon is selected
+                if action == " ":
+                    js = f"""
+                    <script>
+                        window.open("{solution['link']}", "_blank");
+                    </script>
+                    """
+                    st.markdown(js, unsafe_allow_html=True)
