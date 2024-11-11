@@ -83,7 +83,7 @@ if "company_name" not in st.session_state:
 def navigate_to_link(key):
     action = st.session_state[key]
     if action != "Select":
-        webbrowser.open_new_tab(menu_links[action])
+        webbrowser.open_new_tab(st.session_state[f"menu_links_{key}"][action])
 
 # Solutions Page with "Usage" Field in MetricCard
 if selected_page == "The Suite":
@@ -143,6 +143,9 @@ if selected_page == "The Suite":
             if "video_link" in solution:
                 menu_options.append("Video")
                 menu_links["Video"] = solution["video_link"]
+
+            # Store menu_links in session state
+            st.session_state[f"menu_links_{i}"] = menu_links
 
             # Option menu for actions with `default_index=0` to pre-select "Open"
             action = option_menu(
