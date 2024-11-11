@@ -85,35 +85,31 @@ solutions = [
     # ... your solutions list from previous comment ...
 ]
 
+# ... rest of your code ...
+
 # Create three columns for layout
 cols = st.columns(3)
 
 # Iterate over solutions and distribute them across columns
 for i, solution in enumerate(solutions):
-    col_index = i % 3  # Determine the column index
+    col_index = i % 3
 
     with cols[col_index]:
-        with st.container():
-            ui.metric_card(  # Assuming ui.metric_card is your function for displaying metrics
-                title=solution["name"],
-                content=solution["description"],
-                description=solution["usage"],
-                key=f"solution_card_{i}"
-            )
+        with st.card():
+            st.header(solution["name"])
+            st.write(solution["description"])
+            st.write(solution["usage"])
 
-            # Directly open link using JavaScript (ensure correct link path)
-            js = f"""
-            <script>
-                window.open("{solution['link']}", "_blank");
-            </script>
-            """
-            st.markdown(js, unsafe_allow_html=True)  # Allow HTML rendering
+            # Create a horizontal container for links
+            link_container = st.container()
+            with link_container:
+                st.markdown(f"[Open]({solution['link']})", unsafe_allow_html=True)
 
-            # Check for additional links or videos (optional)
-            if "extra_link" in solution:
-                st.markdown(f"[Extra Link]({solution['extra_link']})")
-            if "video_link" in solution:
-                st.markdown(f"[Video]({solution['video_link']})")
+                if "extra_link" in solution:
+                    st.markdown(f"[Download]({solution['extra_link']})", unsafe_allow_html=True)
+
+                if "video_link" in solution:
+                    st.markdown(f"[Video]({solution['video_link']})", unsafe_allow_html=True)
 
 # ... rest of your code ...
 
