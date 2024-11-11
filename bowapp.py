@@ -45,6 +45,20 @@ st.markdown(
 
 local_css("assets/style.css")
 
+# Load SVG files
+def load_svg(filepath):
+    if os.path.exists(filepath):
+        with open(filepath, "r") as file:
+            return file.read()
+    else:
+        st.error(f"SVG file not found: {filepath}")
+        return ""
+
+# Load icons
+video_icon = load_svg("path/to/video-solid.svg")
+magnifying_glass_icon = load_svg("path/to/magnifying-glass-solid.svg")
+download_icon = load_svg("path/to/download-solid.svg")
+
 # Function to load Lottie animations
 def load_lottie_animation(filepath):
     if os.path.exists(filepath):
@@ -128,19 +142,34 @@ if selected_page == "The Suite":
             # Create a row for buttons
             button_cols = st.columns(3)
 
-            # Add buttons for actions with icons
+            # Add buttons for actions with SVG icons
             if "link" in solution:
                 with button_cols[0]:
-                    if st.button("<i class='fas fa-search'></i>", key=f"open_button_{i}"):  # Updated icon class
+                    if st.button(f"{magnifying_glass_icon} Explore", key=f"open_button_{i}"):
                         webbrowser.open_new_tab(solution["link"])
             if "extra_link" in solution:
                 with button_cols[1]:
-                    if st.button("<i class='fas fa-download'></i>", key=f"download_button_{i}"):  # Updated icon class
+                    if st.button(f"{download_icon} Download", key=f"download_button_{i}"):
                         webbrowser.open_new_tab(solution["extra_link"])
             if "video_link" in solution:
                 with button_cols[2]:
-                    if st.button("<i class='fas fa-video'></i>", key=f"video_button_{i}"):  # Updated icon class
+                    if st.button(f"{video_icon} Watch", key=f"video_button_{i}"):
                         webbrowser.open_new_tab(solution["video_link"])
+
+# Additional CSS for SVG styling within buttons
+st.markdown(
+    """
+    <style>
+    .stButton>button svg {
+        height: 16px;  /* Adjust icon size */
+        width: 16px;
+        vertical-align: middle; /* Align icon with text */
+        margin-right: 5px;  /* Space between icon and text */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # Welcome Page with Two-Column Layout
