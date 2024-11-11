@@ -54,9 +54,7 @@ if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
 
 
-# Callback function to open link
-def open_link(link):
-    st.session_state["link"] = link
+
 
 
 # Solutions Page with "Usage" Field in MetricCard
@@ -85,10 +83,10 @@ if selected_page == "The Suite":
     # Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution in a container with option_menu for actions
+    # Display each solution with JavaScript link opening
     for i, solution in enumerate(solutions):
-        with cols[i % 3]:  # Rotate through columns
-            with st.container():  # Container for each solution
+        with cols[i % 3]:
+            with st.container():
                 ui.metric_card(
                     title=solution["name"],
                     content=solution["description"],
@@ -96,7 +94,7 @@ if selected_page == "The Suite":
                     key=f"solution_card_{i}"
                 )
 
-                # Option menu with a callback to open the link
+                # Directly open link using JavaScript
                 action = option_menu(
                     menu_title="",
                     options=["Select", "Open"],
@@ -105,26 +103,15 @@ if selected_page == "The Suite":
                     default_index=0,
                     key=f"option_menu_{i}",
                     orientation="horizontal",
-                    styles={
-                        "container": {"padding": "0!important"},
-                        "nav-link-selected": {"background-color": "#FFCC00"},
-                        "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-                    }
                 )
-
-                # Callback to open the link when "Open" is selected
+                
                 if action == "Open":
-                    open_link(solution["link"])
-
-    # JavaScript redirection if link is set
-    if "link" in st.session_state:
-        js = f"""
-        <script>
-            window.open("{st.session_state['link']}", "_blank");
-        </script>
-        """
-        st.markdown(js, unsafe_allow_html=True)
-        del st.session_state["link"]  # Clear the link after redirection
+                    js = f"""
+                    <script>
+                        window.open("{solution['link']}", "_blank");
+                    </script>
+                    """
+                    st.markdown(js, unsafe_allow_html=True)
 
 
 
