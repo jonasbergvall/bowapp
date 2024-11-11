@@ -75,10 +75,15 @@ selected_page = option_menu(
     }
 )
 
-
 # Variables to store the visitor's company name
 if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
+
+# Function to handle link navigation
+def navigate_to_link(key):
+    action = st.session_state[key]
+    if action != "Select":
+        webbrowser.open_new_tab(menu_links[action])
 
 # Solutions Page with "Usage" Field in MetricCard
 if selected_page == "The Suite":
@@ -115,50 +120,46 @@ if selected_page == "The Suite":
     cols = st.columns(3)
 
     # Display each solution in a MetricCard with option_menu for actions
-for i, solution in enumerate(solutions):
-    with cols[i % 3]:  # Rotate through columns
-        # Display MetricCard with title, description, and usage fields
-        ui.metric_card(
-            title=solution["name"],
-            content=solution["description"],
-            description=solution["usage"],
-            key=f"solution_card_{i}"
-        )
+    for i, solution in enumerate(solutions):
+        with cols[i % 3]:  # Rotate through columns
+            # Display MetricCard with title, description, and usage fields
+            ui.metric_card(
+                title=solution["name"],
+                content=solution["description"],
+                description=solution["usage"],
+                key=f"solution_card_{i}"
+            )
 
-        # Define options for option_menu based on available links
-        menu_options = ["Open"]
-        menu_links = {"Open": solution["link"]}
+            # Define options for option_menu based on available links
+            menu_options = ["Open"]
+            menu_links = {"Open": solution["link"]}
 
-        # Add "Download" option if extra_link exists
-        if "extra_link" in solution:
-            menu_options.append("Download")
-            menu_links["Download"] = solution["extra_link"]
+            # Add "Download" option if extra_link exists
+            if "extra_link" in solution:
+                menu_options.append("Download")
+                menu_links["Download"] = solution["extra_link"]
 
-        # Add "Video" option if video_link exists
-        if "video_link" in solution:
-            menu_options.append("Video")
-            menu_links["Video"] = solution["video_link"]
+            # Add "Video" option if video_link exists
+            if "video_link" in solution:
+                menu_options.append("Video")
+                menu_links["Video"] = solution["video_link"]
 
-        # Option menu for actions with `default_index=0` to pre-select "Open"
-        action = option_menu(
-            menu_title="",
-            options=["Select"] + menu_options,  # Add a non-actionable "Select" option
-            icons=[""] + ["box-arrow-up-right"] * len(menu_options),
-            menu_icon="cast",
-            default_index=0,
-            key=f"option_menu_{i}",
-            orientation="horizontal",
-            styles={
-                "container": {"padding": "0!important"},
-                "nav-link-selected": {"background-color": "#FFCC00"},
-                "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-            }
-        )
-
-        # Display the link using st.markdown
-        if action != "Select":
-            st.markdown(f'<a href="{menu_links[action]}" target="_blank">{action}</a>', unsafe_allow_html=True)
-
+            # Option menu for actions with `default_index=0` to pre-select "Open"
+            action = option_menu(
+                menu_title="",
+                options=["Select"] + menu_options,  # Add a non-actionable "Select" option
+                icons=[""] + ["box-arrow-up-right"] * len(menu_options),
+                menu_icon="cast",
+                default_index=0,
+                key=f"option_menu_{i}",
+                orientation="horizontal",
+                styles={
+                    "container": {"padding": "0!important"},
+                    "nav-link-selected": {"background-color": "#FFCC00"},
+                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
+                },
+                on_change=navigate_to_link
+            )
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
