@@ -2,22 +2,32 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import streamlit_shadcn_ui as ui
+from streamlit_navigation_bar import st_navbar
 import json
+import webbrowser
+import os
 
 # Set up app configuration
 st.set_page_config(page_title="Best of Worlds", page_icon="🌍", layout="centered")
 
-# Apply CSS styling with the updated universal selector approach
+# Function to load CSS
 def local_css(file_name):
-    with open(file_name) as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    if os.path.exists(file_name):
+        with open(file_name) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    else:
+        st.error(f"CSS file not found: {file_name}")
 
 local_css("assets/style.css")
 
 # Function to load Lottie animations
 def load_lottie_animation(filepath):
-    with open(filepath, "r") as file:
-        return json.load(file)
+    if os.path.exists(filepath):
+        with open(filepath, "r") as file:
+            return json.load(file)
+    else:
+        st.error(f"Lottie animation file not found: {filepath}")
+        return {}
 
 # Load animations
 welcome_animation = load_lottie_animation("assets/Animation.json")  # Animation for Welcome page
@@ -30,7 +40,7 @@ st.markdown(
     <div class="top-right-logo-container">
         <img src="https://bestofworlds.se/img/BoWlogo.png" class="top-right-logo">
     </div>
-    """, 
+    """,
     unsafe_allow_html=True
 )
 
@@ -53,14 +63,10 @@ selected_page = option_menu(
 if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
 
-
-
-
-
 # Solutions Page with "Usage" Field in MetricCard
 if selected_page == "The Suite":
     st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
-    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you engage with complexity in a way that’s intuitive and empowering.")
+    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
 
     # Define all specified solutions, including the usage type (Individual, Team, or Organizational)
     solutions = [
@@ -80,38 +86,64 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-    # Define all specified solutions
-solutions = [
-    # ... your solutions list from previous comment ...
-]
+    # Initialize session state for each option's previous selection and user interaction flag if not already set
+    for i, solution in enumerate(solutions):
+        # Track the previous selection to avoid auto-triggering on reload
+        if f"prev_option_{i}" not in st.session_state:
+            st.session_state[f"prev_option_{i}"] = "Select"  # Set default to non-action to ensure fresh selection
+        if f"user_selected_{i}" not in st.session_state:
+            st.session_state[f"user_selected_{i}"] = False  # Flag to check if user has interacted
 
-# ... rest of your code ...
+    # Create three columns for layout
+    cols = st.columns(3)
 
-# Create three columns for layout
-cols = st.columns(3)
+    # Display each solution in a MetricCard with option_menu for actions
+    for i, solution in enumerate(solutions):
+        with cols[i % 3]:  # Rotate through columns
+            # Display MetricCard with title, description, and usage fields
+            ui.metric_card(
+                title=solution["name"],
+                content=solution["description"],
+                description=solution["usage"],
+                key=f"solution_card_{i}"
+            )
 
-# Iterate over solutions and distribute them across columns
-for i, solution in enumerate(solutions):
-    col_index = i % 3
+            # Define options for option_menu based on available links
+            menu_options = ["Open"]
+            menu_links = {"Open": solution["link"]}
 
-    with cols[col_index]:
-        with st.card():
-            st.header(solution["name"])
-            st.write(solution["description"])
-            st.write(solution["usage"])
+            # Add "Download" option if extra_link exists
+            if "extra_link" in solution:
+                menu_options.append("Download")
+                menu_links["Download"] = solution["extra_link"]
 
-            # Create a horizontal container for links
-            link_container = st.container()
-            with link_container:
-                st.markdown(f"[Open]({solution['link']})", unsafe_allow_html=True)
+            # Add "Video" option if video_link exists
+            if "video_link" in solution:
+                menu_options.append("Video")
+                menu_links["Video"] = solution["video_link"]
 
-                if "extra_link" in solution:
-                    st.markdown(f"[Download]({solution['extra_link']})", unsafe_allow_html=True)
+            # Option menu for actions with `default_index=0` to pre-select "Open"
+            action = option_menu(
+                menu_title="",
+                options=["Select"] + menu_options,  # Add a non-actionable "Select" option
+                icons=[""] + ["box-arrow-up-right"] * len(menu_options),
+                menu_icon="cast",
+                default_index=0,
+                key=f"option_menu_{i}",
+                orientation="horizontal",
+                styles={
+                    "container": {"padding": "0!important"},
+                    "nav-link-selected": {"background-color": "#FFCC00"},
+                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
+                }
+            )
 
-                if "video_link" in solution:
-                    st.markdown(f"[Video]({solution['video_link']})", unsafe_allow_html=True)
-
-# ... rest of your code ...
+            # Open the link only if the user has actively selected an option other than "Select"
+            if action != "Select" and (action != st.session_state[f"prev_option_{i}"] or not st.session_state[f"user_selected_{i}"]):
+                webbrowser.open_new_tab(menu_links[action])
+                # Update previous selection and mark as user-selected
+                st.session_state[f"prev_option_{i}"] = action
+                st.session_state[f"user_selected_{i}"] = True  # Mark that the user has interacted
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
@@ -125,7 +157,7 @@ if selected_page == "Welcome":
         # Text and input on the right
         st.title("Welcome to Best of Worlds")
         st.markdown("**Transformation-as-a-Service** tailored to help you and your organization evolve. In a world abundant with complex challenges and rich with opportunity, organizations have vast, often untapped potential to grow, evolve, and contribute meaningfully. We believe that within every organization lies the capacity not only to improve but to thrive, to harness collective intelligence, and to address complex challenges with clarity and purpose. The journey isn’t about fixing what’s broken, but about empowering teams to bring their best to every challenge.")
-        
+
         # Default Streamlit Input
         company_name = st.text_input("Enter your personal name or your organization's name to personalize your experience:")
         if company_name:
@@ -141,7 +173,7 @@ if selected_page == "Taas":
 
     with col2:
         st.title(f"Welcome to your transformation, {st.session_state['company_name']}")
-        
+
         st.markdown("""
             Best of Worlds' **Transformation-as-a-Service** for organizations ready to evolve and thrive.
             Our mission is to empower organizations with insights and tools for a meaningful, human-centered transformation strategy.
@@ -149,7 +181,7 @@ if selected_page == "Taas":
 
         st.markdown(f"""
             Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br><br>
-            - The Suite contains a wide range of tools att different stages of development for {st.session_state['company_name']} to explore, and more is added frequently. 
+            - The Suite contains a wide range of tools att different stages of development for {st.session_state['company_name']} to explore, and more is added frequently.
         """, unsafe_allow_html=True)
 
     # New Three-Column Layout for Suggestions with Email and LinkedIn Links
