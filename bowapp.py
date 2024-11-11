@@ -125,36 +125,41 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-    # Create three columns for layout
-    cols = st.columns(3)
+    # Display each solution with a MetricCard and styled button links
+cols = st.columns(3)
+for i, solution in enumerate(solutions):
+    with cols[i % 3]:  # Rotate through columns
+        # Display MetricCard with title, description, and usage fields
+        ui.metric_card(
+            title=solution["name"],
+            content=solution["description"],
+            description=solution["usage"],
+            key=f"solution_card_{i}"
+        )
 
-    # Display each solution in a MetricCard with buttons for actions
-    for i, solution in enumerate(solutions):
-        with cols[i % 3]:  # Rotate through columns
-            # Display MetricCard with title, description, and usage fields
-            ui.metric_card(
-                title=solution["name"],
-                content=solution["description"],
-                description=solution["usage"],
-                key=f"solution_card_{i}"
-            )
-
-            # Create a row for buttons
-            button_cols = st.columns(3)
-
-            # Add buttons for actions with SVG icons
-            if "link" in solution:
-                with button_cols[0]:
-                    if st.button(f"{magnifying_glass_icon} Explore", key=f"open_button_{i}"):
-                        webbrowser.open_new_tab(solution["link"])
-            if "extra_link" in solution:
-                with button_cols[1]:
-                    if st.button(f"{download_icon} Download", key=f"download_button_{i}"):
-                        webbrowser.open_new_tab(solution["extra_link"])
-            if "video_link" in solution:
-                with button_cols[2]:
-                    if st.button(f"{video_icon} Watch", key=f"video_button_{i}"):
-                        webbrowser.open_new_tab(solution["video_link"])
+        # Create HTML-styled button links with SVG icons below each MetricCard
+        st.markdown(
+            f"""
+            <div style="display: flex; gap: 10px; margin-top: 8px;">
+                <a href="{solution['link']}" target="_blank" style="text-decoration: none;">
+                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                        {magnifying_glass_icon} Explore
+                    </button>
+                </a>
+                <a href="{solution.get('extra_link', '#')}" target="_blank" style="text-decoration: none;">
+                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                        {download_icon} Download
+                    </button>
+                </a>
+                <a href="{solution.get('video_link', '#')}" target="_blank" style="text-decoration: none;">
+                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                        {video_icon} Watch
+                    </button>
+                </a>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 # Additional CSS for SVG styling within buttons
 st.markdown(
