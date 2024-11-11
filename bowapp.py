@@ -3,7 +3,6 @@ from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import streamlit_shadcn_ui as ui
 import json
-import webbrowser
 
 # Set up app configuration
 st.set_page_config(page_title="Best of Worlds", page_icon="🌍", layout="centered")
@@ -82,27 +81,49 @@ if selected_page == "The Suite":
     ]
 
     # Create three columns for layout
+    c# Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution in a MetricCard with options for actions
+    # Display each solution in a MetricCard with option_menu for actions
     for i, solution in enumerate(solutions):
         with cols[i % 3]:  # Rotate through columns
-            # Display MetricCard with title, description, and usage fields
             ui.metric_card(
                 title=solution["name"],
                 content=solution["description"],
                 description=solution["usage"],
                 key=f"solution_card_{i}"
             )
-            
-            # Display links as Markdown buttons
-            st.markdown(f"[Open {solution['name']}]({solution['link']})", unsafe_allow_html=True)
-            
-            if "extra_link" in solution:
-                st.markdown(f"[Download]({solution['extra_link']})", unsafe_allow_html=True)
-                
-            if "video_link" in solution:
-                st.markdown(f"[Video]({solution['video_link']})", unsafe_allow_html=True)
+
+            # Option menu for each solution
+            action = option_menu(
+                menu_title="",
+                options=["Select", "Open"],
+                icons=["", "box-arrow-up-right"],
+                menu_icon="cast",
+                default_index=0,
+                key=f"option_menu_{i}",
+                orientation="horizontal",
+                styles={
+                    "container": {"padding": "0!important"},
+                    "nav-link-selected": {"background-color": "#FFCC00"},
+                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
+                }
+            )
+
+            # Set session state with the link
+            if action == "Open":
+                st.session_state["link"] = solution["link"]
+
+    # JavaScript redirection
+    if "link" in st.session_state:
+        js = f"""
+        <script>
+            window.open("{st.session_state['link']}", "_blank").focus();
+        </script>
+        """
+        st.markdown(js, unsafe_allow_html=True)
+        del st.session_state["link"]  # Clear the link after redirection
+
 
 
 
