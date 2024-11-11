@@ -61,9 +61,7 @@ if "company_name" not in st.session_state:
 # Solutions Page with "Usage" Field in MetricCard
 if selected_page == "The Suite":
     st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
-    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
-
-
+    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you engage with complexity in a way that’s intuitive and empowering.")
 
     # Define all specified solutions, including the usage type (Individual, Team, or Organizational)
     solutions = [
@@ -83,19 +81,10 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-
-    # Initialize session state for each option's previous selection and user interaction flag if not already set
-    for i, solution in enumerate(solutions):
-        # Track the previous selection to avoid auto-triggering on reload
-        if f"prev_option_{i}" not in st.session_state:
-            st.session_state[f"prev_option_{i}"] = "Select"  # Set default to non-action to ensure fresh selection
-        if f"user_selected_{i}" not in st.session_state:
-            st.session_state[f"user_selected_{i}"] = False  # Flag to check if user has interacted
-
     # Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution in a MetricCard with option_menu for actions
+    # Display each solution in a MetricCard with options for actions
     for i, solution in enumerate(solutions):
         with cols[i % 3]:  # Rotate through columns
             # Display MetricCard with title, description, and usage fields
@@ -106,45 +95,14 @@ if selected_page == "The Suite":
                 key=f"solution_card_{i}"
             )
             
-            # Define options for option_menu based on available links
-            menu_options = ["Open"]
-            menu_links = {"Open": solution["link"]}
+            # Display links as Markdown buttons
+            st.markdown(f"[Open {solution['name']}]({solution['link']})", unsafe_allow_html=True)
             
-            # Add "Download" option if extra_link exists
             if "extra_link" in solution:
-                menu_options.append("Download")
-                menu_links["Download"] = solution["extra_link"]
-            
-            # Add "Video" option if video_link exists
+                st.markdown(f"[Download]({solution['extra_link']})", unsafe_allow_html=True)
+                
             if "video_link" in solution:
-                menu_options.append("Video")
-                menu_links["Video"] = solution["video_link"]
-
-            # Option menu for actions with `default_index=0` to pre-select "Open"
-            action = option_menu(
-                menu_title="",
-                options=["Select"] + menu_options,  # Add a non-actionable "Select" option
-                icons=[""] + ["box-arrow-up-right"] * len(menu_options),
-                menu_icon="cast",
-                default_index=0,
-                key=f"option_menu_{i}",
-                orientation="horizontal",
-                styles={
-                    "container": {"padding": "0!important"},
-                    "nav-link-selected": {"background-color": "#FFCC00"},
-                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-                }
-            )
-            
-            # Open the link only if the user has actively selected an option other than "Select"
-            if action != "Select" and (action != st.session_state[f"prev_option_{i}"] or not st.session_state[f"user_selected_{i}"]):
-                webbrowser.open_new_tab(menu_links[action])
-                # Update previous selection and mark as user-selected
-                st.session_state[f"prev_option_{i}"] = action
-                st.session_state[f"user_selected_{i}"] = True  # Mark that the user has interacted
-
-
-
+                st.markdown(f"[Video]({solution['video_link']})", unsafe_allow_html=True)
 
 
 
