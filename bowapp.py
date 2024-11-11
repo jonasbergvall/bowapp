@@ -131,15 +131,15 @@ if selected_page == "The Suite":
             # Add buttons for actions with icons
             if "link" in solution:
                 with button_cols[0]:
-                    if st.button("🔗", key=f"open_button_{i}"):
+                    if st.button("<i class='fa-solid fa-magnifying-glass'></i>", key=f"open_button_{i}"):
                         webbrowser.open_new_tab(solution["link"])
             if "extra_link" in solution:
                 with button_cols[1]:
-                    if st.button("📥", key=f"download_button_{i}"):
+                    if st.button("<i class='fa-solid fa-download'></i>", key=f"download_button_{i}"):
                         webbrowser.open_new_tab(solution["extra_link"])
             if "video_link" in solution:
                 with button_cols[2]:
-                    if st.button("📹", key=f"video_button_{i}"):
+                    if st.button("<i class='fa-solid fa-video'></i>", key=f"video_button_{i}"):
                         webbrowser.open_new_tab(solution["video_link"])
 
 # Welcome Page with Two-Column Layout
