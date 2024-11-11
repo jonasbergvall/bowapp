@@ -79,12 +79,6 @@ selected_page = option_menu(
 if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
 
-# Function to handle link navigation
-def navigate_to_link(key):
-    action = st.session_state[key]
-    if action != "Select":
-        webbrowser.open_new_tab(st.session_state[f"menu_links_{key}"][action])
-
 # Solutions Page with "Usage" Field in MetricCard
 if selected_page == "The Suite":
     st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
@@ -108,18 +102,10 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-    # Initialize session state for each option's previous selection and user interaction flag if not already set
-    for i, solution in enumerate(solutions):
-        # Track the previous selection to avoid auto-triggering on reload
-        if f"prev_option_{i}" not in st.session_state:
-            st.session_state[f"prev_option_{i}"] = "Select"  # Set default to non-action to ensure fresh selection
-        if f"user_selected_{i}" not in st.session_state:
-            st.session_state[f"user_selected_{i}"] = False  # Flag to check if user has interacted
-
     # Create three columns for layout
     cols = st.columns(3)
 
-    # Display each solution in a MetricCard with option_menu for actions
+    # Display each solution in a MetricCard with buttons for actions
     for i, solution in enumerate(solutions):
         with cols[i % 3]:  # Rotate through columns
             # Display MetricCard with title, description, and usage fields
@@ -130,39 +116,16 @@ if selected_page == "The Suite":
                 key=f"solution_card_{i}"
             )
 
-            # Define options for option_menu based on available links
-            menu_options = ["Open"]
-            menu_links = {"Open": solution["link"]}
-
-            # Add "Download" option if extra_link exists
+            # Add buttons for actions
+            if "link" in solution:
+                if st.button("Open", key=f"open_button_{i}"):
+                    webbrowser.open_new_tab(solution["link"])
             if "extra_link" in solution:
-                menu_options.append("Download")
-                menu_links["Download"] = solution["extra_link"]
-
-            # Add "Video" option if video_link exists
+                if st.button("Download", key=f"download_button_{i}"):
+                    webbrowser.open_new_tab(solution["extra_link"])
             if "video_link" in solution:
-                menu_options.append("Video")
-                menu_links["Video"] = solution["video_link"]
-
-            # Store menu_links in session state
-            st.session_state[f"menu_links_{i}"] = menu_links
-
-            # Option menu for actions with `default_index=0` to pre-select "Open"
-            action = option_menu(
-                menu_title="",
-                options=["Select"] + menu_options,  # Add a non-actionable "Select" option
-                icons=[""] + ["box-arrow-up-right"] * len(menu_options),
-                menu_icon="cast",
-                default_index=0,
-                key=f"option_menu_{i}",
-                orientation="horizontal",
-                styles={
-                    "container": {"padding": "0!important"},
-                    "nav-link-selected": {"background-color": "#FFCC00"},
-                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-                },
-                on_change=navigate_to_link
-            )
+                if st.button("Video", key=f"video_button_{i}"):
+                    webbrowser.open_new_tab(solution["video_link"])
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
