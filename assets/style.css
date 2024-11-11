@@ -1,0 +1,66 @@
+/* Load Roboto Slab font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+
+/* Apply Roboto Slab globally with font sizes */
+* {
+    font-family: 'Roboto Slab', sans-serif !important;
+    color: #333 !important;
+}
+
+/* Specific font sizes for headings */
+h1, .stTitle {
+    font-size: 36px !important; /* Main title */
+    font-weight: 700 !important;
+}
+
+h2, .stHeader {
+    font-size: 30px !important; /* Secondary title */
+    font-weight: 600 !important;
+}
+
+h3, .stSubheader {
+    font-size: 24px !important; /* Tertiary title */
+    font-weight: 500 !important;
+}
+
+/* Base font size for paragraphs and general text */
+p, .css-1v0mbdj, .css-1aehpv7, .stTextInput label {
+    font-size: 16px !important;
+}
+
+/* Optional styling for input labels */
+.stTextInput label {
+    font-size: 18px !important;
+    color: #333 !important;
+}
+
+/* Background color for the app */
+body {
+    background-color: #FFCC00;
+}
+
+/* Logo container positioned above the menu */
+.top-right-logo-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+
+.top-right-logo {
+    width: 150px;
+}
+
+/* Adjust the font sizes for MetricCard components */
+.metric-card-title {
+    font-size: 0.1rem !important;  /* Larger font for title */
+    font-weight: bold;
+}
+
+.metric-card-content {
+    font-size: 1rem !important;  /* Standard size for content */
+}
+
+.metric-card-description {
+    font-size: 0.875rem !important;  /* Smaller size for description */
+}
+
