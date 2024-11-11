@@ -18,10 +18,11 @@ def local_css(file_name):
     else:
         st.error(f"CSS file not found: {file_name}")
 
-# Load Google Fonts for Roboto Slab
+# Load Google Fonts for Roboto Slab and Font Awesome for icons
 st.markdown(
     """
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto Slab', sans-serif;
@@ -124,18 +125,18 @@ if selected_page == "The Suite":
             # Create a row for buttons
             button_cols = st.columns(3)
 
-            # Add buttons for actions
+            # Add buttons for actions with icons
             if "link" in solution:
                 with button_cols[0]:
-                    if st.button("Open", key=f"open_button_{i}"):
+                    if st.button("🔗 Open", key=f"open_button_{i}"):
                         webbrowser.open_new_tab(solution["link"])
             if "extra_link" in solution:
                 with button_cols[1]:
-                    if st.button("Download", key=f"download_button_{i}"):
+                    if st.button("📥 Download", key=f"download_button_{i}"):
                         webbrowser.open_new_tab(solution["extra_link"])
             if "video_link" in solution:
                 with button_cols[2]:
-                    if st.button("Video", key=f"video_button_{i}"):
+                    if st.button("📹 Video", key=f"video_button_{i}"):
                         webbrowser.open_new_tab(solution["video_link"])
 
 # Welcome Page with Two-Column Layout
@@ -174,7 +175,7 @@ if selected_page == "Taas":
 
         st.markdown(f"""
             Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br><br>
-            - The Suite contains a wide range of tools att different stages of development for {st.session_state['company_name']} to explore, and more is added frequently.
+            - The Suite contains a wide range of tools at different stages of development for {st.session_state['company_name']} to explore, and more is added frequently.
         """, unsafe_allow_html=True)
 
     # New Three-Column Layout for Suggestions with Email and LinkedIn Links
