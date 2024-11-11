@@ -80,7 +80,14 @@ if selected_page == "The Suite":
         {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
     ]
 
-    # Create three columns for layout
+    # ... rest of your code ...
+
+# Define the solutions list outside the loop
+solutions = [
+    # ... your solution definitions ...
+]
+
+# Create three columns for layout
 cols = st.columns(3)
 
 # Display each solution with JavaScript link opening
@@ -102,6 +109,7 @@ for i, solution in enumerate(solutions):
             """
             st.markdown(js, unsafe_allow_html=True)  # Allow HTML rendering
 
+# ... rest of your code ...
 
 
 # Welcome Page with Two-Column Layout
