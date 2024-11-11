@@ -55,9 +55,9 @@ def load_svg(filepath):
         return ""
 
 # Load icons
-video_icon = load_svg("path/to/video-solid.svg")
-magnifying_glass_icon = load_svg("path/to/magnifying-glass-solid.svg")
-download_icon = load_svg("path/to/download-solid.svg")
+video_icon = load_svg("assets/video-solid.svg")
+magnifying_glass_icon = load_svg("assets/magnifying-glass-solid.svg")
+download_icon = load_svg("assets/download-solid.svg")
 
 # Function to load Lottie animations
 def load_lottie_animation(filepath):
