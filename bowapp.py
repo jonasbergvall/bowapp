@@ -82,13 +82,14 @@ if selected_page == "The Suite":
 
     # ... rest of your code ...
 
-# Define the solutions list outside the loop
-solutions = [
-    # ... your solution definitions ...
-]
-
 # Create three columns for layout
 cols = st.columns(3)
+
+# Define the solutions list (ensure it's defined correctly)
+solutions = [
+    {"name": "Solution 1", "description": "Description 1", "link": "https://example.com/1", "usage": "Individual"},
+    # ... other solutions ...
+]
 
 # Display each solution with JavaScript link opening
 for i, solution in enumerate(solutions):
@@ -110,7 +111,6 @@ for i, solution in enumerate(solutions):
             st.markdown(js, unsafe_allow_html=True)  # Allow HTML rendering
 
 # ... rest of your code ...
-
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
