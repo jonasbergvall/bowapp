@@ -112,17 +112,17 @@ if selected_page == "The Suite":
             # Set session state with the link
             if action == "Open":
                 st.session_state["link"] = solution["link"]
+                st.rerun()  # Trigger rerun to activate the JavaScript code
 
-    # JavaScript redirection
+    # JavaScript redirection if link is set
     if "link" in st.session_state:
         js = f"""
         <script>
-            window.open("{st.session_state['link']}", "_blank").focus();
+            window.open("{st.session_state['link']}", "_blank");
         </script>
         """
         st.markdown(js, unsafe_allow_html=True)
         del st.session_state["link"]  # Clear the link after redirection
-
 
 
 
