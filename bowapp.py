@@ -81,37 +81,26 @@ if selected_page == "The Suite":
     ]
 
     # Create three columns for layout
-    cols = st.columns(3)
+cols = st.columns(3)
 
-    # Display each solution with JavaScript link opening
-    for i, solution in enumerate(solutions):
-        with cols[i % 3]:
-            with st.container():
-                ui.metric_card(
-                    title=solution["name"],
-                    content=solution["description"],
-                    description=solution["usage"],
-                    key=f"solution_card_{i}"
-                )
+# Display each solution with JavaScript link opening
+for i, solution in enumerate(solutions):
+    with cols[i % 3]:
+        with st.container():
+            ui.metric_card(
+                title=solution["name"],
+                content=solution["description"],
+                description=solution["usage"],
+                key=f"solution_card_{i}"
+            )
 
-                # Directly open link using JavaScript
-                action = option_menu(
-                    menu_title="",
-                    options=["Select", "Open"],
-                    icons=["", "box-arrow-up-right"],
-                    menu_icon="cast",
-                    default_index=0,
-                    key=f"option_menu_{i}",
-                    orientation="horizontal",
-                )
-                
-                if action == "Open":
-                    js = f"""
-                    <script>
-                        window.open("{solution['link']}", "_blank");
-                    </script>
-                    """
-                    st.markdown(js, unsafe_allow_html=True)
+            # Directly open link using JavaScript (ensure correct link path)
+            js = f"""
+            <script>
+                window.open("{solution['link']}", "_blank");
+            </script>
+            """
+            st.markdown(js, unsafe_allow_html=True)  # Allow HTML rendering
 
 
 
