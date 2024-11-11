@@ -81,7 +81,6 @@ if selected_page == "The Suite":
     ]
 
     # Create three columns for layout
-    c# Create three columns for layout
     cols = st.columns(3)
 
     # Display each solution in a MetricCard with option_menu for actions
