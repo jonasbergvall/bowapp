@@ -18,6 +18,22 @@ def local_css(file_name):
     else:
         st.error(f"CSS file not found: {file_name}")
 
+# Load Google Fonts for Roboto Slab
+st.markdown(
+    """
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto Slab', sans-serif;
+        }
+        .st-emotion-cache-16txt1c {
+            font-family: 'Roboto Slab', sans-serif;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 local_css("assets/style.css")
 
 # Function to load Lottie animations
@@ -59,6 +75,7 @@ selected_page = option_menu(
     }
 )
 
+
 # Variables to store the visitor's company name
 if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
@@ -98,52 +115,50 @@ if selected_page == "The Suite":
     cols = st.columns(3)
 
     # Display each solution in a MetricCard with option_menu for actions
-    for i, solution in enumerate(solutions):
-        with cols[i % 3]:  # Rotate through columns
-            # Display MetricCard with title, description, and usage fields
-            ui.metric_card(
-                title=solution["name"],
-                content=solution["description"],
-                description=solution["usage"],
-                key=f"solution_card_{i}"
-            )
+for i, solution in enumerate(solutions):
+    with cols[i % 3]:  # Rotate through columns
+        # Display MetricCard with title, description, and usage fields
+        ui.metric_card(
+            title=solution["name"],
+            content=solution["description"],
+            description=solution["usage"],
+            key=f"solution_card_{i}"
+        )
 
-            # Define options for option_menu based on available links
-            menu_options = ["Open"]
-            menu_links = {"Open": solution["link"]}
+        # Define options for option_menu based on available links
+        menu_options = ["Open"]
+        menu_links = {"Open": solution["link"]}
 
-            # Add "Download" option if extra_link exists
-            if "extra_link" in solution:
-                menu_options.append("Download")
-                menu_links["Download"] = solution["extra_link"]
+        # Add "Download" option if extra_link exists
+        if "extra_link" in solution:
+            menu_options.append("Download")
+            menu_links["Download"] = solution["extra_link"]
 
-            # Add "Video" option if video_link exists
-            if "video_link" in solution:
-                menu_options.append("Video")
-                menu_links["Video"] = solution["video_link"]
+        # Add "Video" option if video_link exists
+        if "video_link" in solution:
+            menu_options.append("Video")
+            menu_links["Video"] = solution["video_link"]
 
-            # Option menu for actions with `default_index=0` to pre-select "Open"
-            action = option_menu(
-                menu_title="",
-                options=["Select"] + menu_options,  # Add a non-actionable "Select" option
-                icons=[""] + ["box-arrow-up-right"] * len(menu_options),
-                menu_icon="cast",
-                default_index=0,
-                key=f"option_menu_{i}",
-                orientation="horizontal",
-                styles={
-                    "container": {"padding": "0!important"},
-                    "nav-link-selected": {"background-color": "#FFCC00"},
-                    "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
-                }
-            )
+        # Option menu for actions with `default_index=0` to pre-select "Open"
+        action = option_menu(
+            menu_title="",
+            options=["Select"] + menu_options,  # Add a non-actionable "Select" option
+            icons=[""] + ["box-arrow-up-right"] * len(menu_options),
+            menu_icon="cast",
+            default_index=0,
+            key=f"option_menu_{i}",
+            orientation="horizontal",
+            styles={
+                "container": {"padding": "0!important"},
+                "nav-link-selected": {"background-color": "#FFCC00"},
+                "nav-link": {"font-size": "12px", "text-align": "center", "padding": "5px 10px"},
+            }
+        )
 
-            # Open the link only if the user has actively selected an option other than "Select"
-            if action != "Select" and (action != st.session_state[f"prev_option_{i}"] or not st.session_state[f"user_selected_{i}"]):
-                webbrowser.open_new_tab(menu_links[action])
-                # Update previous selection and mark as user-selected
-                st.session_state[f"prev_option_{i}"] = action
-                st.session_state[f"user_selected_{i}"] = True  # Mark that the user has interacted
+        # Display the link using st.markdown
+        if action != "Select":
+            st.markdown(f'<a href="{menu_links[action]}" target="_blank">{action}</a>', unsafe_allow_html=True)
+
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
