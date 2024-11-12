@@ -170,8 +170,8 @@ st.markdown(
     """
     <style>
     .stButton>button svg {
-        height: 16px;
-        width: 16px;
+        height: 10px;
+        width: 10px;
         vertical-align: middle;
         margin-right: 5px;
     }
