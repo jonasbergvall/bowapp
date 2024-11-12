@@ -107,57 +107,65 @@ if selected_page == "The Suite":
     st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
 
     # Define all specified solutions, including the usage type (Individual, Team, or Organizational)
+    # Define all specified solutions outside the page selection block
     solutions = [
-        {"name": "SAFE IDENTITY", "description": "Anonymous identification", "link": "https://bestofworlds.se/IDQR/", "usage": "Individual use"},
-        {"name": "DATA POINT EXPLORER", "description": "Find your data sources", "link": "https://bestofworlds.se/dataexplorer/DataBrain.html", "usage": "Individual use"},
-        {"name": "BIAS EXPLORER", "description": "Identify your bias", "link": "https://bestofworlds.se/worldview/worldview.html", "usage": "Individual use"},
-        {"name": "DOTS OF SPACE", "description": "Spatial insight for a safe environment", "link": "https://dotsofbow.streamlit.app/", "extra_link": "https://www.icloud.com/shortcuts/0c164ac2c45c48dea430531effbd740f", "usage": "Individual/Team/Organizational"},
-        {"name": "BALANCE", "description": "Find the best balance for your organization", "link": "https://balanceorg.streamlit.app/", "usage": "Individual/Team/Organizational"},
-        {"name": "CONSENSUS", "description": "Shared wisdom for decision-making", "link": "https://consensus.streamlit.app/", "video_link": "https://youtu.be/GZMn3F03zQU", "usage": "Individual/Team"},
-        {"name": "FILTER BUBBLE", "description": "Media bias in your organization", "link": "https://filterbubble.streamlit.app/", "usage": "Individual/Team/Organizational"},
-        {"name": "WHISTLE PEEP 1", "description": "Authentic individual well-being", "link": "https://whistlepeep.streamlit.app/", "usage": "Individual use"},
-        {"name": "WHISTLE PEEP 2", "description": "True organizational well-being", "link": "https://wptotal.streamlit.app/", "usage": "Organizational use"},
-        {"name": "TRAVEL TRACKER", "description": "Preferences for time off and travel", "link": "https://summervacation.streamlit.app/", "usage": "Organizational use"},
-        {"name": "HONESTIFY", "description": "Anonymous feedback on your question", "link": "https://bestofworlds.se/honestify/", "usage": "Individual/Team/Organizational"},
-        {"name": "DILEMMA", "description": "Open up a problem into a dilemma", "link": "https://bestofworlds.se/dilemma/dilemma.png", "extra_link": "https://www.icloud.com/shortcuts/0c164ac2c45c48dea430531effbd740f", "video_link": "https://youtu.be/R1OvHj8qsC8", "usage": "Individual/Team"},
-        {"name": "BRAND BOOTH", "description": "Imagine your sustainable brand", "link": "https://bestofworlds.se/booth/Screenshot.png", "usage": "Individual use"},
-        {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
-    ]
+    {"name": "SAFE IDENTITY", "description": "Anonymous identification", "link": "https://bestofworlds.se/IDQR/", "usage": "Individual use"},
+    {"name": "DATA POINT EXPLORER", "description": "Find your data sources", "link": "https://bestofworlds.se/dataexplorer/DataBrain.html", "usage": "Individual use"},
+    {"name": "BIAS EXPLORER", "description": "Identify your bias", "link": "https://bestofworlds.se/worldview/worldview.html", "usage": "Individual use"},
+    {"name": "DOTS OF SPACE", "description": "Spatial insight for a safe environment", "link": "https://dotsofbow.streamlit.app/", "extra_link": "https://www.icloud.com/shortcuts/0c164ac2c45c48dea430531effbd740f", "usage": "Individual/Team/Organizational"},
+    {"name": "BALANCE", "description": "Find the best balance for your organization", "link": "https://balanceorg.streamlit.app/", "usage": "Individual/Team/Organizational"},
+    {"name": "CONSENSUS", "description": "Shared wisdom for decision-making", "link": "https://consensus.streamlit.app/", "video_link": "https://youtu.be/GZMn3F03zQU", "usage": "Individual/Team"},
+    {"name": "FILTER BUBBLE", "description": "Media bias in your organization", "link": "https://filterbubble.streamlit.app/", "usage": "Individual/Team/Organizational"},
+    {"name": "WHISTLE PEEP 1", "description": "Authentic individual well-being", "link": "https://whistlepeep.streamlit.app/", "usage": "Individual use"},
+    {"name": "WHISTLE PEEP 2", "description": "True organizational well-being", "link": "https://wptotal.streamlit.app/", "usage": "Organizational use"},
+    {"name": "TRAVEL TRACKER", "description": "Preferences for time off and travel", "link": "https://summervacation.streamlit.app/", "usage": "Organizational use"},
+    {"name": "HONESTIFY", "description": "Anonymous feedback on your question", "link": "https://bestofworlds.se/honestify/", "usage": "Individual/Team/Organizational"},
+    {"name": "DILEMMA", "description": "Open up a problem into a dilemma", "link": "https://bestofworlds.se/dilemma/dilemma.png", "extra_link": "https://www.icloud.com/shortcuts/0c164ac2c45c48dea430531effbd740f", "video_link": "https://youtu.be/R1OvHj8qsC8", "usage": "Individual/Team"},
+    {"name": "BRAND BOOTH", "description": "Imagine your sustainable brand", "link": "https://bestofworlds.se/booth/Screenshot.png", "usage": "Individual use"},
+    {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
+]
+
+# Solutions Page with "Usage" Field in MetricCard
+if selected_page == "The Suite":
+    st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
+    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
 
     # Display each solution with a MetricCard and styled button links
-cols = st.columns(3)
-for i, solution in enumerate(solutions):
-    with cols[i % 3]:  # Rotate through columns
-        # Display MetricCard with title, description, and usage fields
-        ui.metric_card(
-            title=solution["name"],
-            content=solution["description"],
-            description=solution["usage"],
-            key=f"solution_card_{i}"
-        )
+    cols = st.columns(3)
+    for i, solution in enumerate(solutions):
+        with cols[i % 3]:  # Rotate through columns
+            # Display MetricCard with title, description, and usage fields
+            ui.metric_card(
+                title=solution["name"],
+                content=solution["description"],
+                description=solution["usage"],
+                key=f"solution_card_{i}"
+            )
 
-        # Create HTML-styled button links with SVG icons below each MetricCard
-        st.markdown(
-            f"""
-            <div style="display: flex; gap: 10px; margin-top: 8px;">
-                <a href="{solution['link']}" target="_blank" style="text-decoration: none;">
-                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                        {magnifying_glass_icon} Explore
-                    </button>
-                </a>
-                <a href="{solution.get('extra_link', '#')}" target="_blank" style="text-decoration: none;">
-                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                        {download_icon} Download
-                    </button>
-                </a>
-                <a href="{solution.get('video_link', '#')}" target="_blank" style="text-decoration: none;">
-                    <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                        {video_icon} Watch
-                    </button>
-                </a>
-            </div>
-            """,
-            unsafe_allow_html=True
+            # Create HTML-styled button links with SVG icons below each MetricCard
+            st.markdown(
+                f"""
+                <div style="display: flex; gap: 10px; margin-top: 8px;">
+                    <a href="{solution['link']}" target="_blank" style="text-decoration: none;">
+                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                            {magnifying_glass_icon} Explore
+                        </button>
+                    </a>
+                    <a href="{solution.get('extra_link', '#')}" target="_blank" style="text-decoration: none;">
+                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                            {download_icon} Download
+                        </button>
+                    </a>
+                    <a href="{solution.get('video_link', '#')}" target="_blank" style="text-decoration: none;">
+                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
+                            {video_icon} Watch
+                        </button>
+                    </a>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
         )
 
 # Additional CSS for SVG styling within buttons
