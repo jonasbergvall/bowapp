@@ -211,7 +211,7 @@ if selected_page == "Taas":
         # Substack Section with Caption and Clickable Image
         st.markdown(
             """
-            <div style="text-align: right; margin-top: -50px;">
+            <div style="text-align: right; margin-top: 0px;">
                 <div style="font-size: 12px; margin-top: -20px; color: #555;">Best of Worlds funny short-stories.</div>
                 <a href="https://jonasbergvall.substack.com/" target="_blank">
                     <img src="https://bestofworlds.se/img/substack.jpg" alt="Substack" style="width: 90%; border-radius: 8px;">
