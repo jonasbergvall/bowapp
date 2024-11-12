@@ -133,8 +133,7 @@ if selected_page == "The Suite":
     # Display each solution with a MetricCard and styled button links
     cols = st.columns(3)
     for i, solution in enumerate(solutions):
-        with cols[i % 3]:  # Rotate through columns
-            # Display MetricCard with title, description, and usage fields
+        with cols[i % 3]:
             ui.metric_card(
                 title=solution["name"],
                 content=solution["description"],
@@ -166,38 +165,31 @@ if selected_page == "The Suite":
                 unsafe_allow_html=True
             )
 
-        )
-
 # Additional CSS for SVG styling within buttons
 st.markdown(
     """
     <style>
     .stButton>button svg {
-        height: 16px;  /* Adjust icon size */
+        height: 16px;
         width: 16px;
-        vertical-align: middle; /* Align icon with text */
-        margin-right: 5px;  /* Space between icon and text */
+        vertical-align: middle;
+        margin-right: 5px;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
-    col1, col2 = st.columns([1, 2])  # Two-column layout
+    col1, col2 = st.columns([1, 2])
 
     with col1:
-        # Lottie animation on the left
         st_lottie(welcome_animation, height=400, key="welcome_animation")
 
     with col2:
-        # Text and input on the right
         st.title("Welcome to Best of Worlds")
-        st.markdown("**Transformation-as-a-Service** tailored to help you and your organization evolve. In a world abundant with complex challenges and rich with opportunity, organizations have vast, often untapped potential to grow, evolve, and contribute meaningfully. We believe that within every organization lies the capacity not only to improve but to thrive, to harness collective intelligence, and to address complex challenges with clarity and purpose. The journey isn’t about fixing what’s broken, but about empowering teams to bring their best to every challenge.")
-
-        # Default Streamlit Input
+        st.markdown("**Transformation-as-a-Service** tailored to help you and your organization evolve...")
         company_name = st.text_input("Enter your personal name or your organization's name to personalize your experience:")
         if company_name:
             st.session_state["company_name"] = company_name
@@ -205,52 +197,26 @@ if selected_page == "Welcome":
 
 # Home Page with Two-Column Layout
 if selected_page == "Taas":
-    col1, col2 = st.columns([1, 2])  # Two-column layout for Home page
+    col1, col2 = st.columns([1, 2])
 
     with col1:
         st_lottie(home_animation, height=420, key="home_animation")
 
     with col2:
         st.title(f"Welcome to your transformation, {st.session_state['company_name']}")
-
-        st.markdown("""
-            Best of Worlds' **Transformation-as-a-Service** for organizations ready to evolve and thrive.
-            Our mission is to empower organizations with insights and tools for a meaningful, human-centered transformation strategy.
-        """)
-
-        st.markdown(f"""
-            Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br><br>
-            - The Suite contains a wide range of tools at different stages of development for {st.session_state['company_name']} to explore, and more is added frequently.
-        """, unsafe_allow_html=True)
-
-    # New Three-Column Layout for Suggestions with Email and LinkedIn Links
+        st.markdown("Best of Worlds' **Transformation-as-a-Service** for organizations ready to evolve and thrive...")
+    
+    # Footer layout
     st.write("---")
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        # Right-align email and LinkedIn SVG icons in the first column with vertical adjustment
-        email_icon_svg = """
-        <div style="text-align: right;">
-            <a href="mailto:info@bestofworlds.se">
-                <img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30" style="margin-top: 220px;">
-            </a>
-        </div>
-        """
-        linkedin_icon_svg = """
-        <div style="text-align: right;">
-            <a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank">
-                <img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30" style="margin-top: 11px;">
-            </a>
-        </div>
-        """
-        st.markdown(email_icon_svg, unsafe_allow_html=True)
-        st.markdown(linkedin_icon_svg, unsafe_allow_html=True)
+        st.markdown('<div style="text-align: right;"><a href="mailto:info@bestofworlds.se"><img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30"></a></div>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align: right;"><a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank"><img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30"></a></div>', unsafe_allow_html=True)
 
     with col2:
         st.markdown("### We’d love to hear from you!")
         st.write("Some of the tools are only available if you contact us. Or do you have ideas for new apps or improvements? Let us know!")
-
-        # Clickable text links
         st.markdown("[team@bestofworlds.se](mailto:team@bestofworlds.se)")
         st.markdown("[Best of Worlds on LinkedIn](https://www.linkedin.com/company/best-of-worlds/)")
 
