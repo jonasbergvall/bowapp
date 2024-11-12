@@ -23,7 +23,7 @@ def load_lottie_animation(filepath):
 # Load animations
 welcome_animation = load_lottie_animation("assets/Animation.json")  # Animation for Welcome page
 home_animation = load_lottie_animation("assets/panel.json")         # Animation for Home page
-robot_animation = load_lottie_animation("assets/robot.json")
+
 
 
 # Display logo above the menu
@@ -155,40 +155,68 @@ if selected_page == "Taas":
         """)
 
         st.markdown(f"""
-            Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br><br>
-            - The Suite contains a wide range of tools att different stages of development for {st.session_state['company_name']} to explore, and more is added frequently. 
+            Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br>
+            - The Suite contains a wide range of tools at different stages of development for {st.session_state['company_name']} to explore, and more is added frequently. 
         """, unsafe_allow_html=True)
 
-    # New Three-Column Layout for Suggestions with Email and LinkedIn Links
-    st.write("---")
+    # New Three-Column Layout for Suggestions with Email, LinkedIn, and Substack Links
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        # Right-align email and LinkedIn SVG icons in the first column with vertical adjustment
-        email_icon_svg = """
-        <div style="text-align: right;">
-            <a href="mailto:info@bestofworlds.se">
-                <img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30" style="margin-top: 220px;">
-            </a>
-        </div>
-        """
-        linkedin_icon_svg = """
-        <div style="text-align: right;">
-            <a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank">
-                <img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30" style="margin-top: 11px;">
-            </a>
-        </div>
-        """
-        st.markdown(email_icon_svg, unsafe_allow_html=True)
-        st.markdown(linkedin_icon_svg, unsafe_allow_html=True)
+        # Jonas's image and title with contact icons aligned to the right
+        st.markdown(
+            """
+            <div style="text-align: right; margin-top: 60px;">
+                <img src="https://bestofworlds.se/img/jonasbow.png" alt="Jonas Bergvall" style="width: 100px;">
+                <div style="font-size: 12px; margin-top: 10px; color: #555;">Jonas Bergvall<br>Founder, Best of Worlds</div>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+
+        # Email Icon
+        st.markdown(
+            """
+            <div style="text-align: right;">
+                <a href="mailto:info@bestofworlds.se">
+                    <img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30" style="margin-top: 15px;">
+                </a>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+
+        # LinkedIn Icon
+        st.markdown(
+            """
+            <div style="text-align: right;">
+                <a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank">
+                    <img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30" style="margin-top: 11px;">
+                </a>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
 
     with col2:
+        # Middle Column: Contact Information
         st.markdown("### We’d love to hear from you!")
         st.write("Some of the tools are only available if you contact us. Or do you have ideas for new apps or improvements? Let us know!")
 
         # Clickable text links
-        st.markdown("[team@bestofworlds.se](mailto:team@bestofworlds.se)")
-        st.markdown("[Best of Worlds on LinkedIn](https://www.linkedin.com/company/best-of-worlds/)")
+        st.write("team[at]bestofworlds.se")
+        st.write("Best of Worlds on LinkedIn")
 
     with col3:
-        st_lottie(robot_animation, height=160, key="robot_animation")
+        # Substack Section with Caption and Clickable Image
+        st.markdown(
+            """
+            <div style="text-align: right; margin-top: -50px;">
+                <div style="font-size: 12px; margin-top: -20px; color: #555;">Best of Worlds funny short-stories.</div>
+                <a href="https://jonasbergvall.substack.com/" target="_blank">
+                    <img src="https://bestofworlds.se/img/substack.jpg" alt="Substack" style="width: 90%; border-radius: 8px;">
+                </a>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
