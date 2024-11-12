@@ -4,73 +4,27 @@ from streamlit_option_menu import option_menu
 import streamlit_shadcn_ui as ui
 import json
 import webbrowser
-import os
 
 # Set up app configuration
 st.set_page_config(page_title="Best of Worlds", page_icon="🌍", layout="centered")
 
-# Function to load CSS
+# Apply CSS styling with the updated universal selector approach
 def local_css(file_name):
-    if os.path.exists(file_name):
-        with open(file_name) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-    else:
-        st.error(f"CSS file not found: {file_name}")
-
-# Load Google Fonts for Roboto Slab and Font Awesome for icons
-st.markdown(
-    """
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto Slab', sans-serif;
-        }
-        .st-emotion-cache-16txt1c {
-            font-family: 'Roboto Slab', sans-serif;
-        }
-        .stButton>button {
-            font-size: 12px;
-            padding: 5px 10px;
-            margin: 2px;
-        }
-        .stButton>button i {
-            font-size: 16px;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 local_css("assets/style.css")
 
-# Load SVG files
-def load_svg(filepath):
-    if os.path.exists(filepath):
-        with open(filepath, "r") as file:
-            return file.read()
-    else:
-        st.error(f"SVG file not found: {filepath}")
-        return ""
-
-# Load icons
-video_icon = load_svg("assets/video-solid.svg")
-magnifying_glass_icon = load_svg("assets/magnifying-glass-solid.svg")
-download_icon = load_svg("assets/download-solid.svg")
-
 # Function to load Lottie animations
 def load_lottie_animation(filepath):
-    if os.path.exists(filepath):
-        with open(filepath, "r") as file:
-            return json.load(file)
-    else:
-        st.error(f"Lottie animation file not found: {filepath}")
-        return {}
+    with open(filepath, "r") as file:
+        return json.load(file)
 
 # Load animations
 welcome_animation = load_lottie_animation("assets/Animation.json")  # Animation for Welcome page
 home_animation = load_lottie_animation("assets/panel.json")         # Animation for Home page
 robot_animation = load_lottie_animation("assets/robot.json")
+
 
 # Display logo above the menu
 st.markdown(
@@ -78,7 +32,7 @@ st.markdown(
     <div class="top-right-logo-container">
         <img src="https://bestofworlds.se/img/BoWlogo.png" class="top-right-logo">
     </div>
-    """,
+    """, 
     unsafe_allow_html=True
 )
 
@@ -101,14 +55,15 @@ selected_page = option_menu(
 if "company_name" not in st.session_state:
     st.session_state["company_name"] = ""
 
-# Solutions Page with "Usage" Field in MetricCard
-if selected_page == "The Suite":
-    st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
-    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
 
-    # Define all specified solutions, including the usage type (Individual, Team, or Organizational)
-    # Define all specified solutions outside the page selection block
-    solutions = [
+# Define SVG URLs
+video_svg_url = "https://bestofworlds.se/img/video-solid.svg"
+magnifying_svg_url = "https://bestofworlds.se/img/magnifying-glass-solid.svg"
+download_svg_url = "https://bestofworlds.se/img/download-solid.svg"
+
+
+# Define all specified solutions, including the usage type (Individual, Team, or Organizational)
+solutions = [
     {"name": "SAFE IDENTITY", "description": "Anonymous identification", "link": "https://bestofworlds.se/IDQR/", "usage": "Individual use"},
     {"name": "DATA POINT EXPLORER", "description": "Find your data sources", "link": "https://bestofworlds.se/dataexplorer/DataBrain.html", "usage": "Individual use"},
     {"name": "BIAS EXPLORER", "description": "Identify your bias", "link": "https://bestofworlds.se/worldview/worldview.html", "usage": "Individual use"},
@@ -120,20 +75,21 @@ if selected_page == "The Suite":
     {"name": "WHISTLE PEEP 2", "description": "True organizational well-being", "link": "https://wptotal.streamlit.app/", "usage": "Organizational use"},
     {"name": "TRAVEL TRACKER", "description": "Preferences for time off and travel", "link": "https://summervacation.streamlit.app/", "usage": "Organizational use"},
     {"name": "HONESTIFY", "description": "Anonymous feedback on your question", "link": "https://bestofworlds.se/honestify/", "usage": "Individual/Team/Organizational"},
-    {"name": "DILEMMA", "description": "Open up a problem into a dilemma", "link": "https://bestofworlds.se/dilemma/dilemma.png", "extra_link": "https://www.icloud.com/shortcuts/0c164ac2c45c48dea430531effbd740f", "video_link": "https://youtu.be/R1OvHj8qsC8", "usage": "Individual/Team"},
-    {"name": "BRAND BOOTH", "description": "Imagine your sustainable brand", "link": "https://bestofworlds.se/booth/Screenshot.png", "usage": "Individual use"},
+    {"name": "DILEMMA", "description": "Open up a problem into a dilemma", "link": "https://bestofworlds.se/dilemma/dilemma.png", "video_link": "https://youtu.be/R1OvHj8qsC8", "usage": "Individual/Team"},
+    {"name": "BRAND BOOTH", "description": "Imagine your sustainable brand", "link": "https://brandbooth.streamlit.app/", "usage": "Individual use"},
     {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
 ]
 
-# Solutions Page with "Usage" Field in MetricCard
+
+# Display solutions in MetricCard with SVG buttons
 if selected_page == "The Suite":
     st.markdown(f"<h1 style='font-size: 30px;'>Transformation tools for {st.session_state['company_name']}</h1>", unsafe_allow_html=True)
-    st.write("Explore the various tools in the Best of Worlds ecosystem designed to help you to engage with complexity in a way that’s intuitive and empowering.")
-
-    # Display each solution with a MetricCard and styled button links
+    st.write("Explore the expanding set of tools in the Best of Worlds ecosystem designed to help you to engage with transformation in a way that’s intuitive and empowering. Mind you, these tools are under development and all are not yet fully functional without assistance. Please contact us for further exploration.")
     cols = st.columns(3)
+
     for i, solution in enumerate(solutions):
-        with cols[i % 3]:
+        with cols[i % 3]:  # Rotate through columns
+            # Display the MetricCard
             ui.metric_card(
                 title=solution["name"],
                 content=solution["description"],
@@ -141,55 +97,43 @@ if selected_page == "The Suite":
                 key=f"solution_card_{i}"
             )
 
-            # Create HTML-styled button links with SVG icons below each MetricCard
-            st.markdown(
-                f"""
-                <div style="display: flex; gap: 10px; margin-top: 8px;">
-                    <a href="{solution['link']}" target="_blank" style="text-decoration: none;">
-                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                            {magnifying_glass_icon} Explore
-                        </button>
-                    </a>
-                    <a href="{solution.get('extra_link', '#')}" target="_blank" style="text-decoration: none;">
-                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                            {download_icon} Download
-                        </button>
-                    </a>
-                    <a href="{solution.get('video_link', '#')}" target="_blank" style="text-decoration: none;">
-                        <button style="background-color: #FFCC00; color: black; padding: 8px 12px; border: none; cursor: pointer;">
-                            {video_icon} Watch
-                        </button>
-                    </a>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            # Adjust icon placement with CSS
+            buttons_html = """
+            <div style='display: flex; gap: 10px; margin-top: -15px; justify-content: center;'>
+            """
+            
+            # Only add the relevant icons if links are available
+            if "link" in solution:
+                buttons_html += f"<a href='{solution['link']}' target='_blank'><img src='{magnifying_svg_url}' alt='Open Link' style='height: 24px;'/></a>"
+            
+            if "extra_link" in solution:
+                buttons_html += f"<a href='{solution['extra_link']}' target='_blank'><img src='{download_svg_url}' alt='Download' style='height: 24px;'/></a>"
+            
+            if "video_link" in solution:
+                buttons_html += f"<a href='{solution['video_link']}' target='_blank'><img src='{video_svg_url}' alt='Watch Video' style='height: 24px;'/></a>"
+            
+            buttons_html += "</div>"
 
-# Additional CSS for SVG styling within buttons
-st.markdown(
-    """
-    <style>
-    .stButton>button svg {
-        height: 10px;
-        width: 10px;
-        vertical-align: middle;
-        margin-right: 5px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+            # Render the HTML with st.markdown
+            st.markdown(buttons_html, unsafe_allow_html=True)
+
+
+
 
 # Welcome Page with Two-Column Layout
 if selected_page == "Welcome":
-    col1, col2 = st.columns([1, 2])
+    col1, col2 = st.columns([1, 2])  # Two-column layout
 
     with col1:
+        # Lottie animation on the left
         st_lottie(welcome_animation, height=400, key="welcome_animation")
 
     with col2:
+        # Text and input on the right
         st.title("Welcome to Best of Worlds")
-        st.markdown("**Transformation-as-a-Service** tailored to help you and your organization evolve...")
+        st.markdown("**Transformation-as-a-Service** tailored to help you and your organization evolve. In a world abundant with complex challenges and rich with opportunity, organizations have vast, often untapped potential to grow, evolve, and contribute meaningfully. We believe that within every organization lies the capacity not only to improve but to thrive, to harness collective intelligence, and to address complex challenges with clarity and purpose. The journey isn’t about fixing what’s broken, but about empowering teams to bring their best to every challenge.")
+        
+        # Default Streamlit Input
         company_name = st.text_input("Enter your personal name or your organization's name to personalize your experience:")
         if company_name:
             st.session_state["company_name"] = company_name
@@ -197,26 +141,52 @@ if selected_page == "Welcome":
 
 # Home Page with Two-Column Layout
 if selected_page == "Taas":
-    col1, col2 = st.columns([1, 2])
+    col1, col2 = st.columns([1, 2])  # Two-column layout for Home page
 
     with col1:
         st_lottie(home_animation, height=420, key="home_animation")
 
     with col2:
         st.title(f"Welcome to your transformation, {st.session_state['company_name']}")
-        st.markdown("Best of Worlds' **Transformation-as-a-Service** for organizations ready to evolve and thrive...")
-    
-    # Footer layout
+        
+        st.markdown("""
+            Best of Worlds' **Transformation-as-a-Service** for organizations ready to evolve and thrive.
+            Our mission is to empower organizations with insights and tools for a meaningful, human-centered transformation strategy.
+        """)
+
+        st.markdown(f"""
+            Our technology isn’t complex—it’s humane. Best of Worlds is a powerful vehicle for deep, human-driven change.<br><br>
+            - The Suite contains a wide range of tools att different stages of development for {st.session_state['company_name']} to explore, and more is added frequently. 
+        """, unsafe_allow_html=True)
+
+    # New Three-Column Layout for Suggestions with Email and LinkedIn Links
     st.write("---")
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown('<div style="text-align: right;"><a href="mailto:info@bestofworlds.se"><img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30"></a></div>', unsafe_allow_html=True)
-        st.markdown('<div style="text-align: right;"><a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank"><img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30"></a></div>', unsafe_allow_html=True)
+        # Right-align email and LinkedIn SVG icons in the first column with vertical adjustment
+        email_icon_svg = """
+        <div style="text-align: right;">
+            <a href="mailto:info@bestofworlds.se">
+                <img src="https://bestofworlds.se/img/email.svg" alt="Email" width="30" style="margin-top: 220px;">
+            </a>
+        </div>
+        """
+        linkedin_icon_svg = """
+        <div style="text-align: right;">
+            <a href="https://www.linkedin.com/company/best-of-worlds/" target="_blank">
+                <img src="https://bestofworlds.se/img/LI-Logo.svg" alt="LinkedIn" width="30" style="margin-top: 11px;">
+            </a>
+        </div>
+        """
+        st.markdown(email_icon_svg, unsafe_allow_html=True)
+        st.markdown(linkedin_icon_svg, unsafe_allow_html=True)
 
     with col2:
         st.markdown("### We’d love to hear from you!")
         st.write("Some of the tools are only available if you contact us. Or do you have ideas for new apps or improvements? Let us know!")
+
+        # Clickable text links
         st.markdown("[team@bestofworlds.se](mailto:team@bestofworlds.se)")
         st.markdown("[Best of Worlds on LinkedIn](https://www.linkedin.com/company/best-of-worlds/)")
 
