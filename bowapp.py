@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 import streamlit_shadcn_ui as ui
-from streamlit_navigation_bar import st_navbar
 import json
 import webbrowser
 import os
