@@ -203,7 +203,7 @@ if selected_page == "Taas":
 
         # Clickable text links
         st.write("team[at]bestofworlds.se")
-        st.write("Best of Worlds on LinkedIn")
+        st.write("")
 
     with col3:
         # Substack Section with Caption and Clickable Image
