@@ -165,7 +165,13 @@ if selected_page == "Taas":
     with col1:
         # Jonas's image and title with contact icons aligned to the right
         st.markdown(
-            
+            """
+            <div style="text-align: right; margin-top: 60px;">
+                <img src="https://bestofworlds.se/img/jonasbow.png" alt="Jonas Bergvall" style="width: 100px;">
+                <div style="font-size: 12px; margin-top: 10px; color: #555;">Jonas Bergvall<br>Founder, Best of Worlds</div>
+            </div>
+            """, 
+            unsafe_allow_html=True
         )
 
         # Email Icon
