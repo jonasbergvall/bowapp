@@ -78,7 +78,7 @@ solutions = [
     {"name": "DILEMMA", "description": "Open up a problem into a dilemma", "link": "https://bestofworlds.se/dilemma/dilemma.png", "video_link": "https://youtu.be/R1OvHj8qsC8", "usage": "Individual/Team"},
     {"name": "BRAND BOOTH", "description": "Imagine your sustainable brand", "link": "https://brandbooth.streamlit.app/", "usage": "Individual use"},
     {"name": "NETWORK ANALYSIS", "description": "Collaboration Network Analysis", "link": "https://bestofworlds.se/CNA/ScreenshotCNA.png", "usage": "Individual/Team/Organizational"},
-    {"name": "WINTER DIVERSITY", "description": "Explore diversity", "link": "https://ledargymmet.streamlit.app/", "usage": "Individual/Team/Organizational"},
+    {"name": "WINTER DIVERSITY", "description": "Explore diversity of winter", "link": "https://ledargymmet.streamlit.app/", "usage": "Individual/Team/Organizational"},
     {"name": "BROWSER DATABASE", "description": "Safe-guard your data", "link": "https://bestofworlds.se/img/browserdatabase.png", "usage": "Individual"},
 ]
 
